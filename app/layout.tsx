@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { SiteFrame } from "@/components/SiteFrame";
-// TypeScript may not have CSS module declarations available in this project.
-// @ts-expect-error — Next.js handles this global stylesheet import at build time.
 import "./globals.css";
 
 export const metadata: Metadata = {
