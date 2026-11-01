@@ -1,0 +1,103 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Branch {
+  id         String     @id
+  city       String
+  name       String
+  address    String
+  phone      String
+  hours      String
+  categories Category[]
+  products   Product[]
+}
+
+model Category {
+  id       String    @id
+  label    String
+  branchId String?   // Optional rakha hai taake purana data loss na ho
+  branch   Branch?   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  products Product[]
+}
+
+model Product {
+  id           String           @id
+  name         String
+  price        Float
+  categoryId   String
+  category     Category         @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  branchId     String?          // Optional rakha hai taake purana data loss na ho
+  branch       Branch?          @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  image        String?
+  description  String?
+  variants     ProductVariant[]
+}
+
+model ProductVariant {
+  id        String  @id @default(uuid())
+  label     String
+  price     Float
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model Offer {
+  id    String @id
+  title String
+  copy  String
+  price String
+  image String
+}
+
+model Order {
+  id              Int         @id @default(autoincrement())
+  customerName    String
+  customerPhone   String
+  customerEmail   String?     // Yeh line add karein
+  customerAddress String
+  orderType       String
+  branchName      String
+  totalAmount     Float
+  status          String      @default("PENDING")
+  createdAt       DateTime    @default(now())
+  items           OrderItem[]
+}
+
+model OrderItem {
+  id       String @id @default(uuid())
+  orderId  Int
+  order    Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  name     String
+  price    Float
+  quantity Int
+}
+
+model Banner {
+  id        String   @id @default(cuid())
+  image     String
+  title     String?
+  createdAt DateTime @default(now())
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String   @unique
+  password  String?
+  phone     String?
+  createdAt DateTime @default(now())
+}
+
+model Otp {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  code      String
+  createdAt DateTime @default(now())
+}
