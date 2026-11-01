@@ -53,7 +53,7 @@ export function UserAddressList({ addresses, onAddClick, onDelete }: AddressList
           <div className="mb-4 text-neutral-300">
             <Building2 className="h-16 w-16 stroke-[1.5]" />
           </div>
-          <p className="text-[15px] font-bold text-[#9ca3af]">You don't have a saved address.</p>
+          <p className="text-[15px] font-bold text-[#9ca3af]">You don&apos;t have a saved address.</p>
         </div>
       )}
 
